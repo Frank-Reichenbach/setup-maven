@@ -1,6 +1,9 @@
 {
   "name": "setup-maven",
   "version": "1.0.1",
+  "engines": {
+    "node": "^20.0.0"
+  },
   "private": true,
   "description": "setup maven action",
   "main": "lib/setup-maven.js",
