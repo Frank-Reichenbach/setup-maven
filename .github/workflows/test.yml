@@ -1,0 +1,23 @@
+name: Test
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Set Maven Version
+        uses: ./.github/actions/setup-maven
+        with:
+          maven-version: 3.6.3
+
+      - name: Test Maven Version
+        run: mvn --version
