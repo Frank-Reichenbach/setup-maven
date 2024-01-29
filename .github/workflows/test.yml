@@ -71,7 +71,7 @@ jobs:
       - name: Test Maven Version
         run: |
           mvn --version
-          if ((mvn -v) -notmatch 'Apache Maven 3\.6\.3') { 
+          if ((mvn -v) -notmatch 'Apache Maven 3\.6\.3.*') { 
             Write-Host "Maven version is not 3.6.3"
             exit 1
           }
