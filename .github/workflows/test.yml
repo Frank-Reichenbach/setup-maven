@@ -20,7 +20,12 @@ jobs:
           maven-version: 3.6.3
 
       - name: Test Maven Version
-        run: mvn --version
+        run: |
+          mvn --version
+          if [ "$(mvn -v | grep 'Apache Maven' | awk '{print $3}')" != "3.6.3" ]; then
+            "Maven version is not 3.6.3"
+            exit 1
+          fi
 
   test-macos:
     runs-on: macos-latest
@@ -39,7 +44,12 @@ jobs:
           maven-version: 3.6.3
 
       - name: Test Maven Version
-        run: mvn --version
+        run: |
+          mvn --version
+          if [ "$(mvn -v | grep 'Apache Maven' | awk '{print $3}')" != "3.6.3" ]; then
+            echo "Maven version is not 3.6.3"
+            exit 1
+          fi
 
   test-windows:
     runs-on: windows-latest
@@ -58,4 +68,9 @@ jobs:
           maven-version: 3.6.3
 
       - name: Test Maven Version
-        run: mvn --version
+        run: |
+          mvn --version
+          if (-not (mvn -v | Select-String 'Apache Maven' | Out-String -match 'Apache Maven\s+3\.6\.3')) {
+            Write-Host "Maven version is not 3.6.3"
+            exit 1
+          }
