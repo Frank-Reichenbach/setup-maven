@@ -71,8 +71,7 @@ jobs:
       - name: Test Maven Version
         run: |
           mvn --version
-          $version = & mvn -v | Select-String 'Apache Maven' | ForEach-Object { $_.Matches.Groups[1].Value }
-          if ($version -ne "3.6.3") {
-            Write-Host "Maven version is not 3.6.3, found version: $version"
+          if ((mvn -v) -notmatch 'Apache Maven 3\.6\.3') { 
+            Write-Host "Maven version is not 3.6.3"
             exit 1
           }
