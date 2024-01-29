@@ -8,8 +8,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-#    ToDo: actually test it
+      - name: Check if rebased on master
+        run: |
+          git fetch origin master:master
+          PR_HEAD=$(git rev-parse HEAD)
+          MASTER_HEAD=$(git rev-parse master)
+          if git merge-base --is-ancestor $MASTER_HEAD $PR_HEAD; then
+            echo "PR is rebased on master"
+          else
+            echo "PR is not rebased on master"
+            exit 1
+          fi
 
   check-content:
     runs-on: ubuntu-latest
