@@ -1,0 +1,45 @@
+name: Test
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-rebased:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+  check-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            node_modules/.package-lock.json
+
+      - name: Build project
+        run: |
+          npm install
+          npm run build
+          npm run format
+          npm run format-check
+          npm prune --omit=dev
+
+      - name: Check git status
+        run: |
+          git status
+          if [ -n "$(git status --porcelain)" ]; then
+             echo "Changes detected, please ensure all dependencies updates are checked in."
+          else
+
+  call-tests:
+    uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
+      pull-requests: read
+    secrets: inherit
