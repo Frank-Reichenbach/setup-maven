@@ -35,7 +35,7 @@ jobs:
           git status
           if [ -n "$(git status --porcelain)" ]; then
              echo "Changes detected, please ensure all dependencies updates are checked in."
-          else
+          fi
 
   call-tests:
     uses: ./.github/workflows/test.yml
