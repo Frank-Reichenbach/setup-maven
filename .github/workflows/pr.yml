@@ -13,9 +13,9 @@ jobs:
 
       - name: Check if rebased on master
         run: |
-          git fetch origin master:master
+          git fetch origin master
           PR_HEAD=$(git rev-parse HEAD)
-          MASTER_HEAD=$(git rev-parse master)
+          MASTER_HEAD=$(git rev-parse origin/master)
           if git merge-base --is-ancestor $MASTER_HEAD $PR_HEAD; then
             echo "PR is rebased on master"
           else
